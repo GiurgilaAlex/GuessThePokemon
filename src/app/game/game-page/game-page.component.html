@@ -1,0 +1,86 @@
+<div *ngIf="!hasAnswered && !hasFinished"
+     class="container">
+  <div class="pokemon-container">
+    <div class="current-pokemon-index">
+      Pokemon {{currentPokemonIndex + 1}} / {{pokemonList.length}}
+    </div>
+    <img *ngIf="gotFirstImage"
+         [src]="imageSource"
+         class="pokemon-image">
+  </div>
+  <div class="input-container">
+    <mat-form-field>
+      <input matInput
+             class="pokemon-name-input"
+             placeholder="Type pokemon name"
+             [(ngModel)]="pokemonName">
+    </mat-form-field>
+    <button class="submit-button"
+            mat-raised-button
+            color="primary"
+            (click)="submit()">
+      Send answer
+    </button>
+  </div>
+
+</div>
+
+<div *ngIf="hasAnswered && !hasFinished">
+  <div *ngIf="isAnswerRight">
+    <img class="correct-answer-image"
+         src="../../../assets/images/Illustration correct answer.svg">
+  </div>
+  <div *ngIf="!isAnswerRight">
+    <img class="wrong-answer-image"
+         src="../../../assets/images/Illustration wrong answer.svg">
+  </div>
+  <div class="answer-container-without-header">
+    <img class="pokemon-answer-image"
+         [src]="imageSource">
+    <span class="answer-pokemon-name">{{pokemonList[currentPokemonIndex]?.name | titlecase }}</span>
+    <button mat-raised-button
+            color="primary"
+            (click)="nextPokemon()">
+      Next question
+    </button>
+  </div>
+</div>
+
+<div *ngIf="hasAnswered && hasFinished"
+     class="score-container">
+  <div class="upper-score-container">
+
+    <div class="score-title">
+      <span class="answer-pokemon-name">You are done!</span>
+    </div>
+    <div class="score">
+      {{score}} of {{pokemonList.length}} completed.
+    </div>
+  </div>
+
+  <div class="image-text-container"
+       *ngIf="score > (pokemonList.length / 2)">
+    <img class="score-image"
+         src="../../../assets/images/Illustration winner.svg">
+    <div class="message">
+      You are the biggest star in the sky, the master of Pokemons. Try again and leave everyone speechless with your
+      skills.
+    </div>
+  </div>
+
+  <div class="image-text-container"
+       *ngIf="score <= (pokemonList.length / 2)">
+
+    <img class="score-image"
+         src="../../../assets/images/Illustration loser.svg">
+    <div class="message">
+      You can do it! You can still be the Pokemon master. Try again and leave everyone speechless with your skills.
+    </div>
+  </div>
+
+  <button mat-raised-button
+          color="primary"
+          (click)="restartTheGame()">
+    Play again
+  </button>
+</div>
